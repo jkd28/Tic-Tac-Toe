@@ -116,20 +116,34 @@ class TicTacToe(tkinter.Tk):
 def set_sector(sector, event):
     global current_player, game_tiles, my_game
     sector_index = sector - 1
+
+    if game_tiles[sector_index] == 'x' or game_tiles[sector_index] == 'o':
+        my_game.setDisplayMessage('That space is taken! Pick again')
+        return
+
     to_set = ''
-    if current_player % 2 == 0:
+
+    if current_player == 0:
         to_set = 'x'
         my_game.draw_x_in(sector, event)
-    else:
+    elif current_player == 1:
         to_set = 'o'
         my_game.draw_o_in(sector, event)
+    else:
+        my_game.quit()
+        print(current_player)
+        print("ERROR: Something went wrong.")
+        exit(1)
 
     game_tiles[sector_index] = to_set
 
     if win_condition_met():
         event.widget.unbind("<Button-1>")
-        my_game.setDisplayMessage("We have a Winner!! \n" + to_set + "'s win!\n" +"GAME OVER")
-    current_player += 1
+        my_game.setDisplayMessage("We have a Winner!! \n" + to_set + "\'s win!\n" +"GAME OVER")
+        return
+    else:
+        current_player = (current_player + 1) % 2
+        my_game.setDisplayMessage('')
 
 
 def check_lines_for_win(line_group):
