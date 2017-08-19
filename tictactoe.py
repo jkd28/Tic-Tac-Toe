@@ -27,11 +27,11 @@ class TicTacToe(tkinter.Tk):
         board.create_line(0, 200, 300, 200)
 
         # bind the left mouse click event to the board
-        board.bind("<Button-1>", self.screen_click)
+        board.bind('<Button-1>', self.screen_click)
 
         # display a change-able message
         self.display_message = tkinter.StringVar()
-        self.display_message.set("Let's play Tic-Tac-Toe!")
+        self.display_message.set('Let\'s play Tic-Tac-Toe!')
         message = tkinter.Label(self, textvariable=self.display_message, width=100)
         message.grid(column=0, row=1)
 
@@ -94,8 +94,8 @@ class TicTacToe(tkinter.Tk):
         top = self.get_sector_tops(sector)
         bottom = self.get_sector_bottoms(sector)
 
-        event.widget.create_line(top['left_x'], top['left_y'], bottom['right_x'], bottom['right_y'], fill="black", width=1.5)
-        event.widget.create_line(top['right_x'], top['right_y'], bottom['left_x'], bottom['left_y'], fill="black", width=1.5)
+        event.widget.create_line(top['left_x'], top['left_y'], bottom['right_x'], bottom['right_y'], fill='black', width=1.5)
+        event.widget.create_line(top['right_x'], top['right_y'], bottom['left_x'], bottom['left_y'], fill='black', width=1.5)
 
         self.update()
 
@@ -132,14 +132,14 @@ def set_sector(sector, event):
     else:
         my_game.quit()
         print(current_player)
-        print("ERROR: Something went wrong.")
+        print('ERROR: Something went wrong.')
         exit(1)
 
     game_tiles[sector_index] = to_set
 
     if win_condition_met():
-        event.widget.unbind("<Button-1>")
-        my_game.setDisplayMessage("We have a Winner!! \n" + to_set + "\'s win!\n" +"GAME OVER")
+        event.widget.unbind('<Button-1>')
+        my_game.setDisplayMessage('We have a Winner!! \n' + to_set + '\'s win!\n' +'GAME OVER')
         return
     else:
         current_player = (current_player + 1) % 2
@@ -173,5 +173,5 @@ if __name__ == '__main__':
 
     global my_game
     my_game = TicTacToe(None)
-    my_game.title("Tic Tac Toe")
+    my_game.title('Tic Tac Toe')
     my_game.mainloop()
