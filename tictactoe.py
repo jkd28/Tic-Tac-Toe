@@ -160,7 +160,6 @@ def win_condition_met():
     verticals = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
     diagonals = [[1, 5, 9], [3, 5, 7]]
 
-    print(game_tiles)
     return check_lines_for_win(horizontals) or check_lines_for_win(verticals) or check_lines_for_win(diagonals)
 
 
