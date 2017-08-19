@@ -30,13 +30,16 @@ class TicTacToe(tkinter.Tk):
         board.bind("<Button-1>", self.screen_click)
 
         # display a change-able message
-        display_message = tkinter.StringVar()
-        display_message.set("Let's play Tic-Tac-Toe!")
-        message = tkinter.Label(self, textvariable=display_message, width=100)
+        self.display_message = tkinter.StringVar()
+        self.display_message.set("Let's play Tic-Tac-Toe!")
+        message = tkinter.Label(self, textvariable=self.display_message, width=100)
         message.grid(column=0, row=1)
 
         # disable resizing
         self.resizable(False, False)
+
+    def setDisplayMessage(self, message):
+        self.display_message.set(message)
 
     def determine_sector(self, x, y):
         if x < 100:
@@ -111,9 +114,9 @@ class TicTacToe(tkinter.Tk):
 
 
 def set_sector(sector, event):
-    global current_player, game_tiles
+    global current_player, game_tiles, my_game
     sector_index = sector - 1
-
+    to_set = ''
     if current_player % 2 == 0:
         to_set = 'x'
         my_game.draw_x_in(sector, event)
@@ -123,13 +126,29 @@ def set_sector(sector, event):
 
     game_tiles[sector_index] = to_set
 
+    if win_condition_met():
+        event.widget.unbind("<Button-1>")
+        my_game.setDisplayMessage("We have a Winner!! \n" + to_set + "'s win!\n" +"GAME OVER")
     current_player += 1
-    check_win_condition()
 
 
-def check_win_condition():
+def check_lines_for_win(line_group):
+    for line in line_group:
+        if game_tiles[line[0]-1] == game_tiles[line[1]-1] == game_tiles[line[2]-1]:
+            return True
+    return False
+
+
+def win_condition_met():
     global game_tiles
-    # TODO add win condition check
+
+    horizontals = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    verticals = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+    diagonals = [[1, 5, 9], [3, 5, 7]]
+
+    print(game_tiles)
+    return check_lines_for_win(horizontals) or check_lines_for_win(verticals) or check_lines_for_win(diagonals)
+
 
 if __name__ == '__main__':
     global current_player
