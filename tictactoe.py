@@ -118,7 +118,7 @@ def set_sector(sector, event):
     sector_index = sector - 1
 
     if game_tiles[sector_index] == 'x' or game_tiles[sector_index] == 'o':
-        my_game.setDisplayMessage('That space is taken! Pick again')
+        my_game.setDisplayMessage("That space is taken! Pick again")
         return
 
     to_set = ''
@@ -132,18 +132,22 @@ def set_sector(sector, event):
     else:
         my_game.quit()
         print(current_player)
-        print('ERROR: Something went wrong.')
+        print("ERROR: Something went wrong.")
         exit(1)
 
     game_tiles[sector_index] = to_set
 
     if win_condition_met():
         event.widget.unbind('<Button-1>')
-        my_game.setDisplayMessage('We have a Winner!! \n' + to_set + '\'s win!\n' +'GAME OVER')
+        my_game.setDisplayMessage(to_set + "\'s win!\nGAME OVER")
+        return
+    elif is_tie_game():
+        event.widget.unbind('<Button-1>')
+        my_game.setDisplayMessage("It's a tie! How unexpected...\nGAME OVER")
         return
     else:
         current_player = (current_player + 1) % 2
-        my_game.setDisplayMessage('')
+        my_game.setDisplayMessage("")
 
 
 def check_lines_for_win(line_group):
@@ -163,7 +167,15 @@ def win_condition_met():
     return check_lines_for_win(horizontals) or check_lines_for_win(verticals) or check_lines_for_win(diagonals)
 
 
-if __name__ == '__main__':
+def is_tie_game():
+    global game_tiles
+    for tile in game_tiles:
+        if tile != 'x' and tile != 'o':
+            return False;
+    return True
+
+
+def main():
     global current_player
     current_player = 0
 
@@ -174,3 +186,6 @@ if __name__ == '__main__':
     my_game = TicTacToe(None)
     my_game.title('Tic Tac Toe')
     my_game.mainloop()
+
+if __name__ == '__main__':
+    main()
